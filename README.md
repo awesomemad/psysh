@@ -41,7 +41,7 @@ Zero network. Zero forks. Zero filesystem writes.
 ## Installation
 
 ```bash
-bash install.sh
+curl -fsSL https://raw.githubusercontent.com/awesomemad/psysh/main/install.sh | bash
 ```
 
 That's it. It will:
