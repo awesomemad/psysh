@@ -33,21 +33,31 @@ psysh_init() {
     # Source a single plugin by name, respecting deps. Internal use only.
     _psy_source_plugin() {
         local name="$1"
+
         # Already sourced this session — skip
         [[ -n "${_psy_sourced[$name]}" ]] && return
-        local file="$PSYSH_PLUGIN_DIR/$name.sh"
-        if [[ ! -f "$file" ]]; then
-            echo "psysh: plugin not found (skipping): $name" >&2
+
+        local file=""
+
+        # Resolve plugin OR theme (plugin has priority here, you can swap if needed)
+        if [[ -f "$PSYSH_PLUGIN_DIR/$name.sh" ]]; then
+            file="$PSYSH_PLUGIN_DIR/$name.sh"
+        elif [[ -f "$PSYSH_THEME_DIR/$name.sh" ]]; then
+            file="$PSYSH_THEME_DIR/$name.sh"
+        else
+            echo "psysh: plugin/theme not found (skipping): $name" >&2
             return
         fi
+
         # Resolve dependencies first (comma or space separated)
-        local deps
+        local deps dep
         deps=$(_psy_get_meta "$file" "dependencies")
+
         if [[ -n "$deps" ]]; then
-            local dep
             for dep in ${deps//,/ }; do
                 dep="${dep// /}"   # trim spaces
                 [[ -z "$dep" ]] && continue
+
                 if [[ -z "${_psy_sourced[$dep]}" ]]; then
                     if [[ -f "$PSYSH_PLUGIN_DIR/$dep.sh" ]] || [[ -f "$PSYSH_THEME_DIR/$dep.sh" ]]; then
                         _psy_source_plugin "$dep"
@@ -58,11 +68,12 @@ psysh_init() {
                 fi
             done
         fi
+
         # shellcheck source=/dev/null
         source "$file"
-        _psy_sourced[$name]=1
-    }
 
+        _psy_sourced["$name"]=1
+    }
     # Source enabled plugins (list is already dep-ordered from psy enable,
     # but _psy_source_plugin enforces it again at runtime to be safe)
     if [[ -f "$PSYSH_ENABLED_PLUGINS" ]]; then
