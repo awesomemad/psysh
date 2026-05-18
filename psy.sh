@@ -361,7 +361,7 @@ _psy_enable() {
             ;;
     esac
 
-    echo "→ run 'psy reload' to apply"
+    echo "→ run 'psy reload' to apply (some plugins may require reloading your shell directly)"
 }
 
 _psy_disable() {
@@ -372,7 +372,7 @@ _psy_disable() {
         grep -vx "$target" "$PSYSH_ENABLED_PLUGINS" > "$PSYSH_ENABLED_PLUGINS.tmp" \
             && mv "$PSYSH_ENABLED_PLUGINS.tmp" "$PSYSH_ENABLED_PLUGINS"
         echo "disabled plugin: $target"
-        echo "→ run 'psy reload' to apply"
+        echo "→ run 'psy reload' to apply (some plugins may require reloading your shell directly)"
         return
     fi
 
@@ -380,7 +380,7 @@ _psy_disable() {
     if [[ -f "$PSYSH_ENABLED_THEME" ]] && [[ "$(cat "$PSYSH_ENABLED_THEME")" == "$target" ]]; then
         rm -f "$PSYSH_ENABLED_THEME"
         echo "disabled theme: $target"
-        echo "→ run 'psy reload' to apply"
+        echo "→ run 'psy reload' to apply (some plugins may require reloading your shell directly)"
         return
     fi
 
