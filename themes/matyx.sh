@@ -1,0 +1,13 @@
+M_VOID='\[\e[38;5;238m\]'
+M_RAIN='\[\e[38;5;65m\]'
+M_NOLAN='\[\e[38;5;67m\]'
+M_WHITE='\[\e[38;5;255m\]'
+M_RESET='\[\e[0m\]'
+GREEN="\e[38;5;46m"
+RED="\e[38;5;196m"
+PROMPTCOLORA="\[\e[38;5;35m\]"
+PROMPTCOLORB="\[\e[38;5;29m\]"
+PROMPTCOLORC="\[\e[38;5;23m\]"
+PROMPTCOLORD="\[\e[38;5;233m\]"
+PROMPTCOLORE="\[\e[38;5;237m\]"
+PROMPTCOLORF="\[\e[38;5;241m\]"
