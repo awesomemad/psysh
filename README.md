@@ -1,21 +1,26 @@
 # psysh
 
-A lightweight plugin and theme manager for bash.  
+A lightweight shell organiser for bash.  
 Named after **ψ** — the wave function. Until a command returns, its state is unknown.
+
+---
+
+# IMPORTANT: SEPERATE REGISTRY REPO 
+
+The registry is decoupled from the manager to ensure modularity and interoperability with custom registry repos. Please see https://github.com/awesomemad/psysh-reg-official/main/
 
 ---
 
 ## Philosophy
 
-Most shell setups are either bare `.bashrc` files held together with comments, or
+Most shell setups are either bare bashrc files held together with comments, or
 framework monsters that fork a dozen processes before you type your first command.
 
-psysh sits between those two things. It gives you a structured way to manage plugins
-and themes without adding any startup overhead. When bash starts, psysh loads only
-what you told it to load — directly from disk, no indirection.
+psysh sits between those two things. It gives you a structured way to manage your shell without adding any startup overhead.
+When bash starts, psysh loads only what you told it to load — directly from disk, no indirection.
 
-The manager itself (`psy`) only runs when you call it. It never touches your shell
-startup path beyond two lines in `.bashrc`.
+The manager itself, `psy`, only runs when you call it. It never touches your shell
+startup path beyond two lines in bashrc.
 
 ---
 
@@ -24,11 +29,11 @@ startup path beyond two lines in `.bashrc`.
 Three completely separate phases:
 
 ```
-install.sh        → runs once, ever
+install.sh        → runs once, ever, to install (obviously)
     ↓
 ~/.bashrc         → two lines, never changes again
     ↓
-every shell start → source psh.sh (load functions) → psysh_init (source enabled files)
+every shell start → source psy.sh (load functions) → psysh_init (source enabled files)
     ↓
 psy commands      → only when you call them
 ```
@@ -44,11 +49,10 @@ Zero network. Zero forks. Zero filesystem writes.
 curl -fsSL https://raw.githubusercontent.com/awesomemad/psysh/main/install.sh | bash
 ```
 
-That's it. It will:
+It will:
 
 - Create `~/.psysh/` directory structure
 - Install the core runtime
-- Ask for your GitHub username and optionally a token
 - Write two lines to `~/.bashrc`
 
 Then restart your shell or:
@@ -68,7 +72,7 @@ psy doctor
 ## GitHub token
 
 You only need a token for `psy upload` or if your registry is private.  
-Public registry fetch and search work without any token.
+Public registry fetch and search work without a token.
 
 If you need one:
 
@@ -94,7 +98,6 @@ If you need one:
 ```
 
 `enabled_plugins` and `enabled_theme` are the only state psysh keeps.  
-No database, no lockfile, no JSON. Just names.
 
 ---
 
@@ -132,7 +135,7 @@ enabled theme: philosopher
 
 ```
   Dependencies required:
-    colors               142 logical lines
+    colours               142 logical lines
     utils                98 logical lines
     fonts                201 logical lines
     icons                88 logical lines
@@ -149,7 +152,7 @@ psy: missing dependencies (not on disk):
 ```
 
 The line count shown is **logical lines** — blank lines, comments, structural keywords
-(`fi`, `done`, `esac`, `{`, `}` etc.) are excluded. A 300 line file that is mostly
+(`fi`, `done`, `esac`, `{`, `}` etc.) are excluded. A 300-line file that is mostly
 comments counts as 30.
 
 Thresholds are overridable:
@@ -181,14 +184,14 @@ This scaffolds `~/.psysh/plugins/myplugin.sh` with the metadata headers pre-fill
 
 Fill in the headers, write your functions below them, done.
 
-The headers are the contract. `psy info`, `psy list`, `psy enable`, and `psy upload`
+The headers are the contract, `psy info`, `psy list`, `psy enable`, and `psy upload`
 all read from them. No separate manifest file, no external config. The file describes
 itself.
 
 **Dependencies** go in `psysh-dependencies` as a comma-separated list of component names:
 
 ```bash
-# psysh-dependencies: matyx, colors
+# psysh-dependencies: matyx, colours
 ```
 
 psysh will resolve and load them in the correct order — dependencies always before
@@ -203,7 +206,7 @@ Same as a plugin but `psysh-type: theme`. Only one theme can be active at a time
 `psy enable` on a new theme replaces the current one.
 
 A theme typically sets `PS1` or `PROMPT_COMMAND`. It can depend on plugins
-(for color variables, git info helpers, etc.) using the same `psysh-dependencies` header.
+(for colour variables, git info helpers, etc.) using the same `psysh-dependencies` header.
 
 ---
 
