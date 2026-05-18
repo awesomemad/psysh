@@ -24,7 +24,7 @@ PSYSH_CACHE_DIR="$PSYSH_HOME/cache"
 PSYSH_LOG_DIR="$PSYSH_HOME/logs"
 PSYSH_ENABLED_PLUGINS="$PSYSH_HOME/enabled_plugins"
 PSYSH_ENABLED_THEME="$PSYSH_HOME/enabled_theme"
-PSYSH_CORE="$PSYSH_HOME/psh.sh"
+PSYSH_CORE="$PSYSH_HOME/psy.sh"
 
 PSYSH_GITHUB_USER="${PSYSH_GITHUB_USER:-awesomemad}"
 PSYSH_GITHUB_REPO="${PSYSH_GITHUB_REPO:-psysh-reg-official}"
@@ -151,7 +151,7 @@ EOF
     fi
 
     cat >> "$BASHRC" << 'EOF'
-source "$PSYSH_HOME/psh.sh"
+source "$PSYSH_HOME/psy.sh"
 psysh_init
 EOF
 
