@@ -24,10 +24,10 @@ PSYSH_CACHE_DIR="$PSYSH_HOME/cache"
 PSYSH_LOG_DIR="$PSYSH_HOME/logs"
 PSYSH_ENABLED_PLUGINS="$PSYSH_HOME/enabled_plugins"
 PSYSH_ENABLED_THEME="$PSYSH_HOME/enabled_theme"
-PSYSH_CORE="$PSYSH_HOME/psy.sh"
+PSYSH_CORE="$PSYSH_HOME/psh.sh"
 
 PSYSH_GITHUB_USER="${PSYSH_GITHUB_USER:-awesomemad}"
-PSYSH_GITHUB_REPO="${PSYSH_GITHUB_REPO:-psysh}"
+PSYSH_GITHUB_REPO="${PSYSH_GITHUB_REPO:-psysh-reg-official}"
 PSYSH_GITHUB_BRANCH="${PSYSH_GITHUB_BRANCH:-main}"
 
 BASHRC="${BASHRC:-$HOME/.bashrc}"
@@ -65,23 +65,28 @@ touch "$PSYSH_ENABLED_THEME"
 _ok "~/.psysh/ structure created"
 
 # =========================================================
-# Step 2 — fetch psy.sh from GitHub
+# Step 2 — fetch psy.sh from manager repo (always awesomemad/psysh)
 # =========================================================
 
 _header "fetching core runtime"
 
 _require_curl
 
-PSH_RAW="https://raw.githubusercontent.com/${PSYSH_GITHUB_USER}/${PSYSH_GITHUB_REPO}/${PSYSH_GITHUB_BRANCH}/psy.sh"
+# Manager repo is hardcoded — separate from the plugin registry
+PSYSH_MANAGER_USER="awesomemad"
+PSYSH_MANAGER_REPO="psysh"
+PSYSH_MANAGER_BRANCH="${PSYSH_GITHUB_BRANCH:-main}"
+
+PSY_RAW="https://raw.githubusercontent.com/${PSYSH_MANAGER_USER}/${PSYSH_MANAGER_REPO}/${PSYSH_MANAGER_BRANCH}/psy.sh"
 
 http_code=$(curl -fsSL \
     -w "%{http_code}" \
     -o "$PSYSH_CORE" \
-    "$PSH_RAW" 2>/dev/null)
+    "$PSY_RAW" 2>/dev/null)
 
 if [[ "$http_code" != "200" ]]; then
     _warn "failed to fetch psy.sh (HTTP $http_code)"
-    _warn "url: $PSH_RAW"
+    _warn "url: $PSY_RAW"
     exit 1
 fi
 
@@ -95,7 +100,6 @@ _ok "core runtime fetched → $PSYSH_CORE"
 _header "GitHub config"
 
 echo "  Registry: github.com/${PSYSH_GITHUB_USER}/${PSYSH_GITHUB_REPO}"
-echo
 
 # Ask for username only if someone else is installing
 # (forking the repo, hosting their own registry)
@@ -147,7 +151,7 @@ EOF
     fi
 
     cat >> "$BASHRC" << 'EOF'
-source "$PSYSH_HOME/psy.sh"
+source "$PSYSH_HOME/psh.sh"
 psysh_init
 EOF
 
@@ -167,7 +171,3 @@ echo "    source ~/.bashrc"
 echo
 echo "  Verify:"
 echo "    psy doctor"
-echo
-echo "  One-liner for next time:"
-echo "    curl -fsSL https://raw.githubusercontent.com/${PSYSH_GITHUB_USER}/${PSYSH_GITHUB_REPO}/${PSYSH_GITHUB_BRANCH}/install.sh | bash"
-echo
