@@ -19,7 +19,7 @@ export PSYSH_ENABLED_THEME="$PSYSH_HOME/enabled_theme"
 # PSYSH_GITHUB_REPO   → registry repo name (default: psysh-registry)
 # PSYSH_GITHUB_TOKEN  → personal access token (needed for upload)
 export PSYSH_GITHUB_USER="${PSYSH_GITHUB_USER:-awesomemad}"
-export PSYSH_GITHUB_REPO="${PSYSH_GITHUB_REPO:-psysh}"
+export PSYSH_GITHUB_REPO="${PSYSH_GITHUB_REPO:-psysh-reg-official}"
 export PSYSH_GITHUB_BRANCH="${PSYSH_GITHUB_BRANCH:-main}"
 
 # =========================================================
@@ -165,8 +165,7 @@ _psy_list_plugins() {
     for f in "$PSYSH_PLUGIN_DIR"/*.sh; do
         [[ -f "$f" ]] || continue
         local name
-        name=$(_psy_get_meta "$f" "name")
-        [[ -z "$name" ]] && name=$(basename "$f" .sh)
+        name=$(basename "$f" .sh)
         if _psy_is_plugin_enabled "$name"; then
             echo "  [enabled]  $name"
         else
@@ -180,13 +179,12 @@ _psy_list_themes() {
     echo "Themes"
     echo "------"
     local active_theme=""
-    [[ -f "$PSYSH_ENABLED_THEME" ]] && active_theme=$(cat "$PSYSH_ENABLED_THEME")
+    [[ -f "$PSYSH_ENABLED_THEME" ]] && active_theme=$(< "$PSYSH_ENABLED_THEME")
 
     for f in "$PSYSH_THEME_DIR"/*.sh; do
         [[ -f "$f" ]] || continue
         local name
-        name=$(_psy_get_meta "$f" "name")
-        [[ -z "$name" ]] && name=$(basename "$f" .sh)
+        name=$(basename "$f" .sh)
         if [[ "$name" == "$active_theme" ]]; then
             echo "  [enabled]  $name"
         else
