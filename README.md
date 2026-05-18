@@ -212,15 +212,24 @@ A theme typically sets `PS1` or `PROMPT_COMMAND`. It can depend on plugins
 
 ## Environment variables
 
+| Variable | Default | Description |
+|---|---|---|
+| `PSYSH_HOME` | `~/.psysh` | psysh working directory |
+| `PSYSH_GITHUB_USER` | `awesomemad` | registry owner |
+| `PSYSH_GITHUB_REPO` | `psysh-reg-official` | registry repo |
+| `PSYSH_GITHUB_BRANCH` | `main` | registry branch |
+| `PSYSH_GITHUB_TOKEN` | — | fine-grained PAT, only for upload or private registry |
+| `PSYSH_DEP_LINE_LIMIT` | `137` | logical line threshold before dep install prompts you |
+| `PSYSH_DEP_COUNT_LIMIT` | `4` | dep count threshold before dep install prompts you |
+
+To use your own registry instead of the official one:
+
 ```bash
-PSYSH_HOME              default: ~/.psysh
-PSYSH_GITHUB_USER       your GitHub username
-PSYSH_GITHUB_REPO       registry repo name     default: psysh-registry
-PSYSH_GITHUB_BRANCH     registry branch        default: main
-PSYSH_GITHUB_TOKEN      fine-grained PAT       optional
-PSYSH_DEP_LINE_LIMIT    logical line threshold  default: 137
-PSYSH_DEP_COUNT_LIMIT   dep count threshold     default: 4
+export PSYSH_GITHUB_USER="yourusername"
+export PSYSH_GITHUB_REPO="your-registry-repo"
 ```
+
+Set these before running `install.sh` to skip the interactive prompts, or add them to your `.bashrc` to override after installation.
 
 Set any of these before running `install.sh` to skip the interactive prompts,
 or export them in your `.bashrc` to override the installed defaults.
