@@ -548,7 +548,7 @@ _psy_search() {
         echo "-------"
 
         # List files in the folder via GitHub Trees API (single request, no clone)
-        local api_url="https://api.github.com/repos/${PSYSH_GITHUB_USER}/${PSYSH_GITHUB_REPO}/git/trees/${PSYSH_GITHUB_BRANCH}?recursive=0"
+        local api_url="https://api.github.com/repos/${PSYSH_GITHUB_USER}/${PSYSH_GITHUB_REPO}/git/trees/${PSYSH_GITHUB_BRANCH}?recursive=1"
         local result
 
         result=$(curl -fsSL "${auth_args[@]}" "$api_url" 2>/dev/null)
@@ -560,8 +560,8 @@ _psy_search() {
 
         # Extract file names from JSON, filter by folder and search term
         echo "$result" \
-            | grep -o '"path":"[^"]*"' \
-            | sed 's/"path":"//;s/"//' \
+            | grep -o '"path": *"[^"]*"' \
+            | sed 's/"path": *"//;s/"//' \
             | grep "^$kind/" \
             | sed "s|^$kind/||;s|\.sh$||" \
             | grep -i "$term" \
