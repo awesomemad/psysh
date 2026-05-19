@@ -7,7 +7,7 @@ Named after **ψ** — the wave function. Until a command returns, its state is 
 
 # IMPORTANT: SEPERATE REGISTRY REPO 
 
-The registry is decoupled from the manager to ensure modularity and interoperability with custom registry repos. Please see https://github.com/awesomemad/psysh-reg-official/main/
+The registry is decoupled from the manager to ensure modularity and interoperability with custom registry repos. Please see https://github.com/awesomemad/psysh-reg-official/
 
 ---
 
